@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/extras/spring-security">
+
+<head th:insert="~{common :: commonHead}">
+    <title>Product Manager</title>
+</head>
+
+<body>
+<div class="container mt-5">
+    <div class="row align-items-center justify-content-center text-center">
+        <div class="col-md-8">
+            <h1 class="display-4 mb-3">Welcome to Product Manager</h1>
+            <div sec:authorize="isAnonymous()">
+                <p class="lead mb-4">Product Manage Index Page<br>Web Framework 2 Report</p>
+                <div class="d-flex justify-content-center gap-3">
+                    <a th:href="@{/login}" class="btn btn-primary">로그인</a>
+                    <a th:href="@{/signup}" class="btn btn-outline-secondary">회원가입</a>
+                </div>
+            </div>
+            <div sec:authorize="isAuthenticated()">
+                <p class="lead mb-4">환영합니다, <span sec:authentication="principal.username">user@example.com</span>님</p>
+                <div sec:authorize="hasRole('ROLE_ADMIN')" class="mb-3">
+                    <a th:href="@{/admin}" class="btn btn-primary">관리자 페이지</a>
+                </div>
+                <div class="d-flex justify-content-center gap-3">
+                    <a th:href="@{/products}" class="btn btn-primary">Products 목록 보기</a>
+                    <form th:action="@{/logout}" method="post" class="mb-0"><button class="btn btn-danger" type="submit">Logout</button></form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS fragment 삽입 -->
+<div th:insert="~{common :: commonScript}"></div>
+</body>
+</html>
